@@ -5,7 +5,7 @@ require 'yaml'
 
 
 module Infusion
-  config = YAML.load_file("../config/config.yml")
+  config = YAML.load_file("#{RAILS_ROOT}/config/config.yml")
  @key = config["config"]["key"]
  server = config["config"]["server"]
  @server = XMLRPC::Client.new2(server)
@@ -114,9 +114,8 @@ module Infusion
       puts "ensure! #{attempts}"
      end
   end
-def method_missing(method, *args, &block)
-      return super unless new.respond_to?(method)
-      new.send(method, *args, &block)
-    end
+
+
+  
 
 end
