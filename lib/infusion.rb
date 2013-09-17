@@ -114,4 +114,9 @@ module Infusion
       puts "ensure! #{attempts}"
      end
   end
+def method_missing(method, *args, &block)
+      return super unless new.respond_to?(method)
+      new.send(method, *args, &block)
+    end
+
 end
