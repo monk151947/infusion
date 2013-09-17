@@ -5,7 +5,7 @@ require 'yaml'
 
 
 module Infusion
-  config = YAML.load_file("config.yaml")
+  config = YAML.load_file("#{RAILS_ROOT}/config/config.yml")
  @key = config["config"]["key"]
  server = config["config"]["server"]
  @server = XMLRPC::Client.new2(server)
