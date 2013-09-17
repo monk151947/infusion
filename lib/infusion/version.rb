@@ -1,0 +1,3 @@
+module Infusion
+  VERSION = "0.0.1"
+end
