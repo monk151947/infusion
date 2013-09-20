@@ -5,16 +5,26 @@ require 'yaml'
 
 
 module Infusion
-  config = YAML.load_file("#{RAILS_ROOT}/config/config.yml")
- @key = config["config"]["key"]
- server = config["config"]["server"]
- @server = XMLRPC::Client.new2(server)
+
+   def self.file_path(file)
+
+      begin
+        config = YAML::load(IO.read(file))
+      rescue => e
+        raise "YAML configuration file couldn't be found: #{e}"
+      end
+    
+     $key = config["config"]["key"]
+     server = config["config"]["server"]
+     $server = XMLRPC::Client.new2(server)
+   end  
+  
  #method for get the data from the table
 
   def self.data_load(table, id, selected_fields)
        attempts = 0
      begin
-        main_product = @server.call("DataService.load", @key,table, id, selected_fields)
+        main_product = $server.call("DataService.load", $key,table, id, selected_fields)
       rescue Exception
        attempts += 1
       retry unless attempts > 1000
@@ -27,14 +37,14 @@ module Infusion
  # method to opt in email
 
    def self.optin(email, message)
-    @server.call("APIEmailService.optIn", @key,email,message)
+    $server.call("APIEmailService.optIn", $key,email,message)
    end
 
  # method for find email from IS
    def self.findByEmail(email, contact_info)
    attempts = 0
      begin
-    @server.call("ContactService.findByEmail", @key, email,contact_info)
+    $server.call("ContactService.findByEmail", $key, email,contact_info)
     rescue Exception
        attempts += 1
       retry unless attempts > 1000
@@ -48,7 +58,7 @@ module Infusion
   def self.add_contact(contact)
     attempts = 0
      begin
-     server.call("ContactService.add", @key, contact)
+     $server.call("ContactService.add", $key, contact)
     rescue Exception
        attempts += 1
       retry unless attempts > 1000
@@ -62,7 +72,7 @@ module Infusion
    def self.update(user_id, contact)
      attempts = 0
      begin
-    @server.call("ContactService.update", @key,user_id,contact)
+    $server.call("ContactService.update", $key,user_id,contact)
     rescue Exception
        attempts += 1
       retry unless attempts > 1000
@@ -76,7 +86,7 @@ module Infusion
   def self.merge(user_id, merge_id)
     attempts = 0
      begin
-   @server.call("ContactService.merge", @key,user_id, merge_id)
+   $server.call("ContactService.merge", $key,user_id, merge_id)
    rescue Exception
        attempts += 1
       retry unless attempts > 1000
@@ -90,7 +100,7 @@ module Infusion
   def self.campaign(results, campaign_id)
     attempts = 0
      begin
-    @server.call("ContactService.addToGroup",@key,results,campaign_id)
+    $server.call("ContactService.addToGroup",$key,results,campaign_id)
     rescue Exception
        attempts += 1
       retry unless attempts > 1000
@@ -105,7 +115,7 @@ module Infusion
   def self.query(query, fields)
    attempts = 0
      begin
-     @server.call("DataService.query",@key,"RecurringOrder",10,0,query,fields)
+     $server.call("DataService.query",$key,"RecurringOrder",10,0,query,fields)
      rescue Exception
        attempts += 1
       retry unless attempts > 1000
