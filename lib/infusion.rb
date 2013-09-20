@@ -14,8 +14,8 @@ module Infusion
         raise "YAML configuration file couldn't be found: #{e}"
       end
     
-     $key = config["config"]["key"]
-     server = config["config"]["server"]
+     $key = config["key"]
+     server = config["server"]
      $server = XMLRPC::Client.new2(server)
    end  
   
