@@ -79,3 +79,5 @@ config/initializers/infusion.rb
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+6. Complete wiki of infusion soft API methods http://help.infusionsoft.com/api-docs/affiliateservice
+7. Please report bugs. 
