@@ -57,6 +57,32 @@ config/initializers/infusion.rb
 
     Infusion.campaign(contact_id, campaign_id) 
 
+ 
+ To retrive order Id from contact there is job table for order in infusionsoft:
+
+    fields   =  ["Id", "DateCreated", "JobNotes", "JobTitle", "JobStatus"]
+
+ Order Details of user retrieve order:
+
+    query  =   {:ContactId =>  params[:ContactID] }
+
+    Infusion.order(query, fields)
+
+ To find last order_id that is latest created order:
+    
+    order_details.last["ID"] 
+
+ To retrive order items from order_id :
+
+    fields = ["ProductId", "SubscriptionPlanId", "ItemName", "Qty"]
+
+ Order Details of user retrieve order:
+
+    query = {:OrderId => params[:orderId]  }
+    
+    Infusion.orderitems(query, fields)
+
+
  Find by query this method is for to check subscription:
 
     fields   =  ["ProductId", "SubscriptionPlanId", "ItemName", "Qty"]
